@@ -4,18 +4,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="apple-touch-icon" sizes="76x76" href="../../assets/img/apple-icon.png" />
-    <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="../../../assets/img/apple-icon.png" />
+    <link rel="icon" type="image/png" href="../../../assets/img/favicon.png" />
     <title>Sign Up</title>
     <!-- Fonts and icons -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Nucleo Icons -->
-    <link href="../../assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="../../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href="../../../assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="../../../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Main Styling -->
-    <link href="../../assets/css/soft-ui-dashboard-tailwind.css?v=1.0.5" rel="stylesheet" />
+    <link href="../../../assets/css/soft-ui-dashboard-tailwind.css?v=1.0.5" rel="stylesheet" />
 
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
@@ -33,7 +33,7 @@
 
     <main class="mt-0 transition-all duration-200 ease-soft-in-out">
       <section class="min-h-screen mb-32">
-        <div class="relative flex items-start pt-12 pb-56 m-4 overflow-hidden bg-center bg-cover min-h-50-screen rounded-xl" style="background-image: url('../../assets/img/curved-images/curved14.jpg')">
+        <div class="relative flex items-start pt-12 pb-56 m-4 overflow-hidden bg-center bg-cover min-h-50-screen rounded-xl" style="background-image: url('../../../assets/img/curved-images/curved14.jpg')">
           <span class="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-to-tl from-gray-900 to-slate-800 opacity-60"></span>
           <div class="container z-10">
             <div class="flex flex-wrap justify-center -mx-3">
@@ -78,7 +78,7 @@
                     <div class="text-center">
                       <button type="submit" name="submit" class="inline-block w-full px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-to-tl from-gray-900 to-slate-800 hover:border-slate-700 hover:bg-slate-700 hover:text-white">Sign up</button>
                     </div>
-                    <p class="mt-4 mb-0 leading-normal text-sm">Already have an account? <a href="../view/sign-in.php" class="font-bold text-slate-700">Sign in</a></p>
+                    <p class="mt-4 mb-0 leading-normal text-sm">Already have an account? <a href="../../view/User/login.php" class="font-bold text-slate-700">Sign in</a></p>
                   </form>
                 </div>
               </div>
@@ -107,7 +107,7 @@
     </main>
   </body>
   <!-- plugin for scrollbar  -->
-  <script src="../../assets/js/plugins/perfect-scrollbar.min.js" async></script>
+  <script src="../../../assets/js/plugins/perfect-scrollbar.min.js" async></script>
   <!-- main script file  -->
-  <script src="../../assets/js/soft-ui-dashboard-tailwind.js?v=1.0.5" async></script>
+  <script src="../../../assets/js/soft-ui-dashboard-tailwind.js?v=1.0.5" async></script>
 </html>
