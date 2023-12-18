@@ -56,11 +56,11 @@ class UserController
     public function loginUser($data)
     {
         // Traitez les données de la vue ici
-        $username = $_POST['username'];
+        $email = $_POST['email'];
         $password = $_POST['pwd']; // Correction ici
 
         // Appelez la méthode de connexion du modèle
-        $result = $this->model->loginUser($username, $password);
+        $result = $this->model->loginUser($email, $password);
 
         // Vous pouvez rediriger l'utilisateur en fonction du résultat
         if ($result) {

@@ -41,11 +41,11 @@ class UserModel
     }
 
 
-    public function loginUser($profile, $password)
+    public function loginUser($email, $password)
     {
         // Récupérez les informations de l'utilisateur à partir de la base de données
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE profile = ?");
-        $stmt->bind_param("s", $profile);
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -57,7 +57,7 @@ class UserModel
                 // Commencez la session et stockez les informations de l'utilisateur
                 session_start();
                 $_SESSION['user_id'] = $user['user_id'];
-                $_SESSION['profile'] = $user['profile'];
+                $_SESSION['email'] = $user['email'];
 
                 return true; // Connexion réussie
             }
@@ -76,14 +76,14 @@ class UserModel
         return $result->num_rows === 0;
     }
 
-    private function isprofileUnique($profile)
+    private function isprofileUnique($fullname)
     {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE profile = ?");
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE fullname = ?");
 
         // Vérifiez s'il y a des erreurs avec la préparation de la requête
         
 
-        $stmt->bind_param("s", $profile);
+        $stmt->bind_param("s", $fullname);
         $stmt->execute();
         $result = $stmt->get_result();
 
