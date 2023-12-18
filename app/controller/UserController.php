@@ -69,6 +69,7 @@ class UserController
         } else {
             echo "Login failed. Please check your profile and password.";
         }
-    }
+    } 
+
 }
 ?>

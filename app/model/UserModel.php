@@ -11,7 +11,19 @@ class UserModel
         $this->db = $db;
     }
 
-    // ... (Autres fonctions du modèle)
+    public function getUsers() {
+        $sql = "SELECT id, fullname FROM users";
+        $result = $this->db->query($sql);
+
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row;
+            }
+        }
+
+        return $users;
+    }
 
     public function registerUser($firstname, $lastname, $profile, $email, $password)
     {
