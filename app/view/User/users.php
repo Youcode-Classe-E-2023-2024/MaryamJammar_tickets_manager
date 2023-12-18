@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="apple-touch-icon" sizes="76x76" href="../../../assets/img/apple-icon.png" />
-    <link rel="icon" type="image/png" href="../../../assets/img/favicon.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="../../../public/assets/img/apple-icon.png" />
+    <link rel="icon" type="image/png" href="../../../public/assets/img/favicon.png" />
     <title>Users</title>
     
     <!--     Fonts and icons     -->
@@ -13,10 +13,10 @@
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Nucleo Icons -->
-    <link href="../../../assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="../../../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href="../../../public/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="../../../public/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Main Styling -->
-    <link href="../../../assets/css/soft-ui-dashboard-tailwind.css?v=1.0.5" rel="stylesheet" />
+    <link href="../../../public/assets/css/soft-ui-dashboard-tailwind.css?v=1.0.5" rel="stylesheet" />
 
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
@@ -29,7 +29,7 @@
     <div class="h-19.5">
       <i class="absolute top-0 right-0 hidden p-4 opacity-50 cursor-pointer fas fa-times text-slate-400 xl:hidden" sidenav-close></i>
       <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap text-slate-700" href="../Ticket/tickets.php">
-        <img src="../../../assets/img/logo-ct.png" class="inline h-full max-w-full transition-all duration-200 ease-nav-brand max-h-8" alt="main_logo" />
+        <img src="../../../public/assets/img/logo-ct.png" class="inline h-full max-w-full transition-all duration-200 ease-nav-brand max-h-8" alt="main_logo" />
         <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Avito Tickets manager</span>
       </a>
     </div>
@@ -134,7 +134,7 @@
         </li>
 
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="../profile.php">
+          <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="../User/profile.php">
             <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
               <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>customer-support</title>
@@ -205,9 +205,9 @@
     </div>
   </body>
   <!-- plugin for scrollbar  -->
-  <script src="../../../assets/js/plugins/perfect-scrollbar.min.js" async></script>
+  <script src="../../../public/assets/js/plugins/perfect-scrollbar.min.js" async></script>
   <!-- github button -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- main script file  -->
-  <script src="../../../assets/js/soft-ui-dashboard-tailwind.js?v=1.0.5" async></script>
+  <script src="../../../public/assets/js/soft-ui-dashboard-tailwind.js?v=1.0.5" async></script>
 </html>
