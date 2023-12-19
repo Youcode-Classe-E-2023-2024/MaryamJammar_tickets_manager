@@ -17,22 +17,49 @@ class TicketModel
     }
 
     // Méthode pour créer un nouveau ticket dans la base de données
-    public function createTicket($title, $description, $priority, $statut, $createdBy, $commentId)
+    public function createTicket($title, $description, $priority, $statut, $created_by)
     {
 
         // Requête SQL pour insérer un nouveau ticket
-        $sql = "INSERT INTO tickets (title, description, priority, statut, created_by, comment_id, date_creation) 
-                VALUES (?, ?, ?, ?, ?, ?, NOW())";
+        $sql = "INSERT INTO tickets (title, description, priority, statut, date_creation, created_by) 
+                VALUES (?, ?, ?, ?,NOW(), ?)";
 
         // Utilisation de requêtes préparées pour éviter les injections SQL
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param('ssssii', $title, $description, $priority, $statut, $createdBy, $commentId);
+        try {
+            // Prepare the statement
+            $stmt = $this->conn->prepare($sql);
 
-        // Exécution de la requête
-        $stmt->execute();
+            if (!$stmt) {
+                throw new Exception("Error preparing statement: " . $this->conn->error);
+            }
 
-        // Fermeture du statement
-        $stmt->close();
+            // Bind parameters
+            $bindResult = $stmt->bind_param('ssssi', $title, $description, $priority, $statut, $created_by);
+
+            if (!$bindResult) {
+                throw new Exception("Error binding parameters: " . $stmt->error);
+            }
+
+            // Execute the statement
+            $executeResult = $stmt->execute();
+
+            if (!$executeResult) {
+                // Check if the error is related to a foreign key constraint violation
+                if ($stmt->errno == 1452) {
+                    throw new Exception("Error executing statement: Foreign key constraint violation. The specified user does not exist.");
+                } else {
+                    throw new Exception("Error executing statement: " . $stmt->error);
+                }
+            }
+
+            // Your existing code...
+
+            echo "Record inserted successfully!";
+            return mysqli_insert_id($this->conn);
+        } catch (Exception $e) {
+            // Handle the exception (log, display an error message, etc.)
+            echo "Error: " . $e->getMessage();
+        }
     }
 
     // Méthode pour récupérer tous les tickets
@@ -99,15 +126,32 @@ class TicketModel
     // Méthode pour attribuer un ticket à un utilisateur
     public function assignTicketToUser($ticketId, $userId)
     {
-        $query = "INSERT INTO assignation (user_id, ticket_id) VALUES (?, ?)";
-        $statement = $this->conn->prepare($query);
-        $statement->bind_param("ii", $userId, $ticketId);
+        echo "test <br>";
+        print_r($userId);
+        try {
+            $query = "INSERT INTO assignation (user_id, ticket_id) VALUES (?, ?)";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("ii", $userId, $ticketId);
 
-        if ($statement->execute()) {
-            return true;
-        } else {
-            // Gestion des erreurs, vous pouvez personnaliser cette partie en fonction de vos besoins
-            return false;
+            // Execute the statement
+            $executeResult = $stmt->execute();
+
+            if (!$executeResult) {
+                // Check if the error is related to a foreign key constraint violation
+                if ($stmt->errno == 1452) {
+                    throw new Exception("Error executing statement: Foreign key constraint violation. The specified user does not exist.");
+                } else {
+                    throw new Exception("Error executing statement: " . $stmt->error);
+                }
+            }
+
+            // Your existing code...
+
+            echo "Record inserted successfully!";
+            return mysqli_insert_id($this->conn);
+        } catch (Exception $e) {
+            // Handle the exception (log, display an error message, etc.)
+            echo "Error: " . $e->getMessage();
         }
     }
 
@@ -118,11 +162,8 @@ class TicketModel
         $query = "INSERT INTO tagg (ticket_id, tag_id) VALUES (?, ?)";
         $statement = $this->conn->prepare($query);
 
-        // Boucle sur les tagIds et exécutez la requête pour chaque paire
-        foreach ($tagIds as $tagId) {
-            $statement->bind_param("ii", $ticketId, $tagId);
-            $statement->execute();
-        }
+        $statement->bind_param("ii", $ticketId, $tagIds);
+        $statement->execute();
 
         // Vérifiez si toutes les requêtes ont réussi (vous pouvez ajuster cela en fonction de vos besoins)
         return true;

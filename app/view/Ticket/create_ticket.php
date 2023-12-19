@@ -199,7 +199,7 @@ $users = $userModel->getUsers();
         <div class="w-auto px-56 py-6">
             <div class="bg-white px-12 py-12 rounded-lg">
 
-                <form action="">
+                <form action="../../controller/TicketController.php" method="post">
                     <div class="lg:col-span-2">
                         <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
                             <div class="md:col-span-5">
@@ -223,33 +223,26 @@ $users = $userModel->getUsers();
                                 </select>
                             </div>
 
-
                             <div class="md:col-span-2 w-72">
                                 <select name="priority" id="priority" class="block py-4 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
                                     <option selected>Choose the priority</option>
-                                    <option value="CA">Urgent</option>
-                                    <option value="FR">Normal</option>
+                                    <option value="Urgent">Urgent</option>
+                                    <option value="Normal">Normal</option>
                                 </select>
                             </div>
 
-                            <!-- <div class="md:col-span-2">
-                                <label for="soda">Assign to</label>
-                                <div class="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
-                                </div>
-                            </div> -->
-
                             <div class="md:col-span-2 w-72 ml-32">
                                 <label for="date_creation">Date</label>
-                                <input type="datetime-local" name="date_creation" id="date_creation" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="<?php echo date('Y-m-d\TH:i'); ?>" placeholder="" />
+                                <input type="datetime-local" name="date_creation" id="date_creation" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="<?php echo date('Y-m-d\TH:i'); ?>" readonly/>
                             </div>
 
 
                             <div class="md:col-span-4 w-72">
                                 <select id="statut" name="statut" class="block py-4 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
                                     <option selected>Choose a statut</option>
-                                    <option value="todo">To do</option>
-                                    <option value="doing">Doing</option>
-                                    <option value="done">Done</option>
+                                    <option value="Todo">To do</option>
+                                    <option value="Doing">Doing</option>
+                                    <option value="Done">Done</option>
                                 </select>
                             </div>
 
@@ -266,7 +259,7 @@ $users = $userModel->getUsers();
 
                             <div class="md:col-span-5 text-right mt-8">
                                 <div class="inline-flex items-end">
-                                    <button type="submit" name="sumbit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                                    <button type="submit" name="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
                                 </div>
                             </div>
 

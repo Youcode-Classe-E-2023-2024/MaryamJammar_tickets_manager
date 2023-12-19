@@ -1,5 +1,7 @@
 <?php
 require_once '../model/UserModel.php';
+include_once('../../config/Database.php');
+
 
 // Initialisez votre base de données (vous devrez avoir un code pour cela)
 $db = new Database();

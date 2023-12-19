@@ -1,6 +1,6 @@
 <?php
-// include_once('../model/TicketModel.php');
 
+session_start();
 class TicketController
 {
     private $ticketModel;
@@ -8,36 +8,44 @@ class TicketController
     public function __construct()
     {
         // Initialisez votre modèle Ticket ici
+        include_once('../model/TicketModel.php');
         $this->ticketModel = new TicketModel();
     }
 
     // Méthode pour traiter la soumission du formulaire de création de ticket
     public function createTicket()
     {
-        // Récupérez les données du formulaire
-        $title = $_POST['title'];
-        $description = $_POST['description'];
-        $priority = $_POST['priority'];
-        $status = $_POST['status'];
-        $assignees = $_POST['assignees']; // Tableau d'IDs d'utilisateurs
-        $tags = $_POST['tags']; // Tableau d'IDs de tags
-        $commentId = $_POST['comment_id']; // Supposons que le champ du formulaire s'appelle comment_id
-        $dateCreation = date('Y-m-d H:i:s'); // Utilisez la date actuelle lors de la création du ticket
 
-        // Appelez la méthode du modèle pour créer le ticket en incluant comment_id et date_creation
-        $ticketId = $this->ticketModel->createTicket($title, $description, $priority, $status, $commentId, $dateCreation);
-
-        // Associez le ticket aux utilisateurs
-        foreach ($assignees as $userId) {
-            $this->ticketModel->assignTicketToUser($ticketId, $userId);
-        }
-
-        // Ajoutez les tags au ticket
-        $this->ticketModel->addTagsToTicket($ticketId, $tags);
-
-        // Redirigez vers la page des détails du ticket ou une autre page appropriée
-        header("Location: tickets.php?id=$ticketId");
-        exit();
+        if (isset($_POST["submit"])) {
+            // Récupérez les données du formulaire
+            $title = $_POST['title'];
+            $description = $_POST['description'];
+            $priority = $_POST['priority'];
+            $statut = isset($_POST['statut']) ? $_POST['statut'] : 'Todo'; 
+            $assignees = $_POST['assignTo']; // Tableau d'IDs d'utilisateurs
+            $tags = $_POST['tag']; // Tableau d'IDs de tags
+    
+            // Appelez la méthode du modèle pour créer le ticket en incluant comment_id et date_creation
+            $ticketId = $this->ticketModel->createTicket($title, $description, $priority, $statut, $_SESSION['user_id']);
+    
+            // Associez le ticket aux utilisateurs
+            foreach ($assignees as $userId) {
+                $this->ticketModel->assignTicketToUser($ticketId, $userId);
+            }
+    
+            // Ajoutez les tags au ticket
+            foreach($tags as $tag) {
+                $this->ticketModel->addTagsToTicket($ticketId, $tag);
+            }
+    
+            echo "test";
+    
+            // Redirigez vers la page des détails du ticket ou une autre page appropriée
+            // header("Location: ../../Ticket/tickets.php?id=$ticketId");
+            // exit();
+        } else
+        echo "madkhlch";
+        
     }
 
     // Méthode pour afficher le formulaire d'attribution de ticket à un utilisateur
@@ -82,3 +90,7 @@ class TicketController
         exit();
     }
 }
+
+$ticket = new TicketController;
+
+$ticket->createTicket();
