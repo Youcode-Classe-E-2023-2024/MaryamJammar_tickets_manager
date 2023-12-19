@@ -1,3 +1,18 @@
+<?php
+include_once('../../../config/Database.php');
+require_once("../../model/TagModel.php");
+require_once("../../model/UserModel.php");
+
+$db = new Database;
+$conn = $db->connect();
+
+$tagModel = new TagModel();
+$tags = $tagModel->getAllTag();
+
+$userModel = new UserModel($conn);
+$users = $userModel->getUsers();
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -199,15 +214,15 @@
 
                             <div class="md:col-span-5 py-4">
                                 <label for="tag">Choose a tag</label>
-                                <select name="tag" id="tag" multiple>
-                                    <option value="1">Bug</option>
-                                    <option value="2">Documentation</option>
-                                    <option value="3">Duplicate</option>
-                                    <option value="4">Help wanted</option>
-                                    <option value="5">Question</option>
-                                    <option value="6">Amélioration</option>
+                                <select name="tag[]" id="tag" multiple>
+                                    <?php
+                                    foreach ($tags as $tag) {
+                                    ?>
+                                        <option value="<?= $tag["tag_id"] ?>"><?= $tag["tag"] ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
+
 
                             <div class="md:col-span-2 w-72">
                                 <select name="priority" id="priority" class="block py-4 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
@@ -240,13 +255,14 @@
 
                             <div class="md:col-span-5 py-4">
                                 <label for="assignTo">Assign to</label>
-                                <select name="assignTo" id="assignTo" multiple>
-                                    <?php foreach ($users as $user) : ?>
-                                        <option value="<?= $user['id'] ?>"><?= $user['fullname'] ?></option>
-                                    <?php endforeach; ?>
+                                <select name="assignTo[]" id="assignTo" multiple>
+                                <?php
+                                    foreach ($users as $assignee) {
+                                    ?>
+                                        <option value="<?= $assignee["user_id"] ?>"><?= $assignee["fullname"] ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
-
 
                             <div class="md:col-span-5 text-right mt-8">
                                 <div class="inline-flex items-end">
