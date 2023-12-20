@@ -249,7 +249,7 @@ $userModel = new UserModel($conn);
                     </div>
                     <p class="text-white"><?php echo $ticket['description']; ?></p>
                     <div class="flex justify-between mt-12">
-                      <a class="mt-auto mb-0 text-sm font-semibold leading-normal text-white group" href="ticketsDetails.php">
+                      <a class="mt-auto mb-0 text-sm font-semibold leading-normal text-white group" href="ticketsDetails.php?ticket_id= <?php $ticket['ticket_id']?> ">
                         Read More
                         <i class="fas fa-arrow-right ease-bounce text-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
                       </a>

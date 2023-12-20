@@ -1,5 +1,4 @@
 <?php
-// include('../controller/TicketController.php');
 
 class TicketModel
 {
