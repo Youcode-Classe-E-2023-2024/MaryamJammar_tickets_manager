@@ -1,4 +1,6 @@
 <?php
+require_once('../../../config/Database.php');
+require_once("../../model/TicketModel.php");
 
 // require_once("../../controller/TicketController.php");
 
@@ -52,6 +54,21 @@ class TicketController
         $ticketModel = new TicketModel();
         $tickets = $ticketModel->getAllTickets();
         return $tickets;
+    }
+
+    public function showTicketDetails($ticketId)
+    {
+        
+        $ticketDetails = $this->ticketModel->getTicketDetails($ticketId);
+
+        if (!$ticketDetails) {
+            // Gérer le cas où les détails du ticket n'ont pas pu être récupérés
+            echo "Erreur : Impossible de récupérer les détails du ticket.";
+            exit;
+        }
+
+        // Appeler la vue pour afficher les détails du ticket
+        include '../view/Ticket/ticket_details.php';
     }
 
     // Méthode pour afficher le formulaire d'attribution de ticket à un utilisateur
