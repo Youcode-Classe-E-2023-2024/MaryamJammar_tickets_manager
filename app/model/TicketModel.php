@@ -1,6 +1,5 @@
 <?php
-include_once('../../config/Database.php');
-// TicketModel.php
+// include('../controller/TicketController.php');
 
 class TicketModel
 {
@@ -69,12 +68,17 @@ class TicketModel
         $result = $this->conn->query($query);
 
         if ($result) {
-            return $result->fetch_all(MYSQLI_ASSOC);
+            $tickets = [];
+            while ($row = $result->fetch_assoc()) {
+                $tickets[] = $row;
+            }
+            return $tickets;
         } else {
             // Gestion des erreurs, vous pouvez personnaliser cette partie en fonction de vos besoins
             return false;
         }
     }
+
 
     // Méthode pour récupérer les détails d'un ticket spécifique
     public function getTicketDetails($ticketId)
@@ -176,12 +180,13 @@ class TicketModel
     }
 }
 
-// Exemple d'utilisation du modèle
-// $ticketModel = new TicketModel("localhost", "votre_nom_utilisateur", "votre_mot_de_passe", "nom_de_votre_base_de_donnees");
-// $ticketModel->createTicket("Titre du ticket", "Description du ticket", "Haute", "En cours", 1, 123);
-// $ticketModel->closeConnection();
+
+// $ticketModel = new TicketModel();
+
+// $tickets = $ticketModel->getAllTickets();
+
 
 // Exemple d'utilisation du modèle
-// $ticketModel = new TicketModel();
+// $ticketModel = new TicketModel("localhost", "votre_nom_utilisateur", "votre_mot_de_passe", "nom_de_votre_base_de_donnees");
 // $ticketModel->createTicket("Titre du ticket", "Description du ticket", "Haute", "En cours", 1, 123);
 // $ticketModel->closeConnection();

@@ -1,5 +1,6 @@
 <?php
 
+
 class UserModel
 {
     private $db;
@@ -10,7 +11,7 @@ class UserModel
     }
 
     public function getUsers() {
-        $sql = "SELECT user_id, fullname FROM users";
+        $sql = "SELECT user_id, fullname, profile FROM users";
         $result = $this->db->query($sql);
         if (!$result) {
             die("Error in the query: " . $this->db->error);

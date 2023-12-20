@@ -1,3 +1,22 @@
+<?php
+// require_once("../../controller/UserController.php");
+require_once '../../model/UserModel.php';
+require_once("../../model/TicketModel.php");
+require_once('../../../config/Database.php');
+
+require_once("../../controller/TicketController.php");
+
+// Instancier votre contrôleur
+$ticketController = new TicketController();
+// Appeler la méthode pour afficher les tickets
+$tickets = $ticketController->showTicket();
+
+$db = new Database();
+$conn = $db->connect();
+
+$userModel = new UserModel($conn);
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -26,12 +45,12 @@
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
   <script>
-        // Fonction pour basculer l'affichage du menu déroulant
-        function toggleDropdown() {
-            var dropdown = document.getElementById('dropdown');
-            dropdown.classList.toggle('hidden');
-        }
-    </script>
+    // Fonction pour basculer l'affichage du menu déroulant
+    function toggleDropdown() {
+      var dropdown = document.getElementById('dropdown');
+      dropdown.classList.toggle('hidden');
+    }
+  </script>
 </head>
 
 <body class="m-0 font-sans text-base antialiased font-normal leading-default bg-gray-50 text-slate-500">
@@ -181,53 +200,81 @@
 
     <!-- cards -->
     <div class="w-full px-6 py-6 ">
-    <div class="flex justify-between">
+      <div class="flex justify-between">
         <div>
-            <button href="create_ticket" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Add ticket</button>
+          <button href="create_ticket.php" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Add ticket</button>
         </div>
 
         <form>
-            <div class="flex w-full">
-                <button id="dropdown-button" onclick="toggleDropdown()" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gradient-to-r from-purple-500 to-pink-500 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" type="button">All tickets <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-                    </svg></button>
-                <div id="dropdown" class="z-10 hidden rounded-lg shadow w-44 dark:bg-gray-700">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
-                        <li>
-                            <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mockups</button>
-                        </li>
-                        <li>
-                            <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Templates</button>
-                        </li>
-                        <li>
-                            <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Design</button>
-                        </li>
-                        
-                    </ul>
-                </div>
+          <div class="flex w-full">
+            <button id="dropdown-button" onclick="toggleDropdown()" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gradient-to-r from-purple-500 to-pink-500 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" type="button">All tickets <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+              </svg></button>
+            <div id="dropdown" class="z-10 hidden rounded-lg shadow w-44 dark:bg-gray-700">
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
+                <li>
+                  <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mockups</button>
+                </li>
+                <li>
+                  <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Templates</button>
+                </li>
+                <li>
+                  <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Design</button>
+                </li>
+
+              </ul>
             </div>
+          </div>
         </form>
-    </div>
+      </div>
 
 
       <!-- cards row 2 -->
       <div class="flex flex-wrap mt-6 ">
 
-        <div class="px-3 lg:flex-none">
-          <div class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border p-4">
-            <div class="relative h-full overflow-hidden bg-cover rounded-xl" style="background-image: url('../../../public/assets/img/ivancik.jpg')">
-              <span class="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-to-tl from-gray-900 to-slate-800 opacity-80"></span>
-              <div class="relative z-10 flex flex-col flex-auto h-full p-4">
-                <h5 class="pt-2 mb-6 font-bold text-white">Work with the rockets</h5>
-                <p class="text-white">Wealth creation is an evolutionarily recent positive-sum game. It is all about who take the opportunity first.</p>
-                <a class="mt-auto mb-0 text-sm font-semibold leading-normal text-white group" href="javascript:;">
-                  Read More
-                  <i class="fas fa-arrow-right ease-bounce text-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <?php
+        if (isset($tickets) && is_array($tickets)) {
+          foreach ($tickets as $ticket) {
+            ?>
+                <div class="px-3 lg:flex-none">
+                    <div class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border p-4">
+                        <div class="relative h-full overflow-hidden bg-cover rounded-xl py-8" style="background-image: url('../../../public/assets/img/wp2.jpg')">
+                            <span class="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-to-tl from-gray-900 to-slate-800 opacity-80"></span>
+                            <div class="relative z-10 flex flex-col flex-auto h-full p-4">
+                                <div class="flex justify-between mb-4">
+                                    <h5 class="mb-6 font-bold text-white"><?php echo $ticket['title']; ?></h5>
+                                    <p class="text-white">Date: <?php echo $ticket['date_creation']; ?></p>
+                                </div>
+                                <p class="text-white"><?php echo $ticket['description']; ?></p>
+                                <div class="flex justify-between mt-12">
+                                    <a class="mt-auto mb-0 text-sm font-semibold leading-normal text-white group" href="">
+                                        Read More
+                                        <i class="fas fa-arrow-right ease-bounce text-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
+                                    </a>
+                                    <p class="text-white">Assigned by:
+                                    <?php
+                                    // Vous devrez récupérer les informations de l'utilisateur assigné ici
+                                    // Assurez-vous que votre modèle a une méthode pour récupérer les détails de l'utilisateur par ID
+                                    $assignedUser = $userModel->getUsers();
+                                    foreach($assignedUser as $user){
+                                     echo $user['fullname']; }?>
+                                    
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php
+            }
+            
+          
+        } else {
+          echo "Aucun ticket trouvé.";
+        }
+        ?>
+
+
 
       </div>
 

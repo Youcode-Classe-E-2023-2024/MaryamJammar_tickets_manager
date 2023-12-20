@@ -1,14 +1,13 @@
 <?php
 
+// require_once("../../controller/TicketController.php");
+
+// Passez les données à votre vue pour l'affichage
 session_start();
 class TicketController
 {
     private $ticketModel;
-
-    public function __construct()
-    {
-        // Initialisez votre modèle Ticket ici
-        include_once('../model/TicketModel.php');
+    public function __construct() {
         $this->ticketModel = new TicketModel();
     }
 
@@ -21,31 +20,38 @@ class TicketController
             $title = $_POST['title'];
             $description = $_POST['description'];
             $priority = $_POST['priority'];
-            $statut = isset($_POST['statut']) ? $_POST['statut'] : 'Todo'; 
+            $statut = isset($_POST['statut']) ? $_POST['statut'] : 'Todo';
             $assignees = $_POST['assignTo']; // Tableau d'IDs d'utilisateurs
             $tags = $_POST['tag']; // Tableau d'IDs de tags
-    
+
             // Appelez la méthode du modèle pour créer le ticket en incluant comment_id et date_creation
             $ticketId = $this->ticketModel->createTicket($title, $description, $priority, $statut, $_SESSION['user_id']);
-    
+
             // Associez le ticket aux utilisateurs
             foreach ($assignees as $userId) {
                 $this->ticketModel->assignTicketToUser($ticketId, $userId);
             }
-    
+
             // Ajoutez les tags au ticket
-            foreach($tags as $tag) {
+            foreach ($tags as $tag) {
                 $this->ticketModel->addTagsToTicket($ticketId, $tag);
             }
-    
+
             echo "test";
-    
+
             // Redirigez vers la page des détails du ticket ou une autre page appropriée
-            // header("Location: ../../Ticket/tickets.php?id=$ticketId");
-            // exit();
+            header("Location: ../view/Ticket/tickets.php?id=$ticketId");
+            exit();
         } else
-        echo "madkhlch";
-        
+            echo "madkhlch";
+    }
+
+    public function showTicket()
+    {
+        include_once('../../model/TicketModel.php');
+        $ticketModel = new TicketModel();
+        $tickets = $ticketModel->getAllTickets();
+        return $tickets;
     }
 
     // Méthode pour afficher le formulaire d'attribution de ticket à un utilisateur
