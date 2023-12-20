@@ -172,6 +172,32 @@ class TicketModel
         return true;
     }
 
+
+    public function getFilteredTickets($filterType, $loggedInUserId)
+    {
+        $query = "SELECT * FROM tickets";
+
+        // Ajoutez la logique de filtrage ici en fonction du type de filtre
+        // Vous pouvez utiliser une clause WHERE dans votre requête SQL.
+
+        if ($filterType == 'created_by_me') {
+            $query .= " WHERE creator_id = " . $loggedInUserId;
+        } elseif ($filterType == 'assigned_to_me') {
+            $query .= " WHERE assigned_to = " . $loggedInUserId;
+        }
+
+        $result = $this->conn->query($query);
+
+        $tickets = [];
+        while ($row = $result->fetch_assoc()) {
+            $tickets[] = $row;
+        }
+
+        return $tickets;
+    }
+
+
+
     // Méthode pour fermer la connexion à la base de données
     public function closeConnection()
     {

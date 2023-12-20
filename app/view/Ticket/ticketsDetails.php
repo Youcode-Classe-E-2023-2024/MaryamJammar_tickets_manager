@@ -9,7 +9,29 @@ require_once("../../controller/TicketController.php");
 // Instancier votre contrôleur
 $ticketController = new TicketController();
 // Appeler la méthode pour afficher les tickets
-$tickets = $ticketController->showTicket();
+
+// Récupérer le ticket_id depuis l'URL
+if (isset($_GET['ticket_id'])) {
+  $ticket_id = $_GET['ticket_id'];
+
+  // Utiliser le modèle pour obtenir les détails du ticket en fonction de l'ID
+  $ticketDetails = $ticketModel->getTicketDetails($ticket_id);
+
+  // Afficher les détails du ticket
+  if ($ticketDetails) {
+    // Afficher les détails du ticket, par exemple :
+    echo "<h1>{$ticketDetails['title']}</h1>";
+    echo "<p>Date: {$ticketDetails['date_creation']}</p>";
+    echo "<p>{$ticketDetails['description']}</p>";
+    echo "<p>Assigned to: {$ticketDetails['assigned_to']}</p>";
+    // Ajoutez d'autres détails du ticket au besoin
+  } else {
+    echo "Ticket non trouvé.";
+  }
+} else {
+  echo "Ticket ID non spécifié.";
+}
+
 
 
 $db = new Database();

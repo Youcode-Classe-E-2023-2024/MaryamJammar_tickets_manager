@@ -57,6 +57,14 @@ class TicketController
         return $tickets;
     }
 
+    public function showTicketDetails($ticket_id) {
+        // Récupérez les détails du ticket depuis le modèle
+        $ticketDetails = $this->ticketModel->getTicketDetails($ticket_id);
+
+        // Incluez la vue pour afficher les détails du ticket
+        include 'views/ticketsDetails.php';
+    }
+
     // Méthode pour afficher le formulaire d'attribution de ticket à un utilisateur
     public function showAssignTicketForm($ticketId)
     {
@@ -98,6 +106,27 @@ class TicketController
         header("Location: tickets.php?id=$ticketId");
         exit();
     }
+
+    public function filterTickets($filterType, $loggedInUserId) {
+        // Utilisez le modèle pour obtenir les tickets filtrés
+        $tickets = [];
+    
+        if ($filterType == 'all_tickets') {
+            // Récupérer tous les tickets de la base de données
+            $tickets = $this->ticketModel->getAllTickets();
+        } elseif ($filterType == 'created_by_me') {
+            // Récupérer les tickets créés par l'utilisateur connecté
+            $tickets = $this->ticketModel->getFilteredTickets('created_by_me', $loggedInUserId);
+        } elseif ($filterType == 'assigned_to_me') {
+            // Récupérer les tickets assignés à l'utilisateur connecté
+            $tickets = $this->ticketModel->getFilteredTickets('assigned_to_me', $loggedInUserId);
+        }
+    
+        // Vous pouvez également implémenter d'autres filtres ici
+    
+        return $tickets;
+    }
+    
 }
 
 $ticket = new TicketController;
