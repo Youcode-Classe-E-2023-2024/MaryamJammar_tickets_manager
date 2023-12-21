@@ -2,6 +2,9 @@
 include_once('../../../config/Database.php');
 require_once("../../model/TagModel.php");
 require_once("../../model/UserModel.php");
+require_once("../../model/TicketModel.php");
+require_once("../../controller/TicketController.php");
+
 
 $db = new Database;
 $conn = $db->connect();

@@ -1,26 +1,21 @@
 <?php
+// require_once("../../controller/UserController.php");
 require_once '../../model/UserModel.php';
-require_once '../../model/TicketModel.php';
-require_once '../../../config/Database.php';
-require_once '../../controller/TicketController.php';
+require_once("../../model/TicketModel.php");
+require_once('../../../config/Database.php');
 
-/// Instancier votre contrôleur
+require_once("../../controller/TicketController.php");
+
+// Instancier votre contrôleur
 $ticketController = new TicketController();
-
-// Vérifier si un filtre est défini
-$filterType = isset($_GET['filter']) ? $_GET['filter'] : 'all';
-
-// Appeler la méthode pour afficher les tickets filtrés
-$loggedInUserId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
-
-
-
-$tickets = $ticketController->filterTickets($filterType, $loggedInUserId);
+// Appeler la méthode pour afficher les tickets
+$tickets = $ticketController->showTicket();
 
 $db = new Database();
 $conn = $db->connect();
 
 $userModel = new UserModel($conn);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -213,29 +208,26 @@ $userModel = new UserModel($conn);
         </div>
 
         <form>
-  <div class="flex w-full">
-    <button id="dropdown-button" onclick="toggleDropdown()" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gradient-to-r from-purple-500 to-pink-500 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" type="button">
-      All tickets
-      <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-      </svg>
-    </button>
-    <div id="dropdown" class="z-10 hidden rounded-lg shadow w-44 dark:bg-gray-700">
-      <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
-        <li>
-          <a href="tickets.php?filter=all">All Tickets</a>
-        </li>
-        <li>
-          <a href="tickets.php?filter=created_by_me">Created by Me</a>
-        </li>
-        <li>
-          <a href="tickets.php?filter=assigned_to_me">Assigned to Me</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</form>
+          <div class="flex w-full">
+            <button id="dropdown-button" onclick="toggleDropdown()" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gradient-to-r from-purple-500 to-pink-500 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" type="button">All tickets <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+              </svg></button>
+            <div id="dropdown" class="z-10 hidden rounded-lg shadow w-44 dark:bg-gray-700">
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
+                <li>
+                  <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mockups</button>
+                </li>
+                <li>
+                  <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Templates</button>
+                </li>
+                <li>
+                  <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Design</button>
+                </li>
 
+              </ul>
+            </div>
+          </div>
+        </form>
       </div>
 
 
@@ -246,7 +238,7 @@ $userModel = new UserModel($conn);
         if (isset($tickets) && is_array($tickets)) {
           foreach ($tickets as $ticket) {
         ?>
-            <div class="ticket px-3 lg:flex-none w-5/6 mt-8" data-ticket-type="<?php echo strtolower(str_replace(' ', '_', $ticket['type'])); ?>">
+            <div class="px-3 lg:flex-none w-5/6 mt-8">
               <div class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border p-4">
                 <div class="relative h-full overflow-hidden bg-cover rounded-xl py-8" style="background-image: url('../../../public/assets/img/wp2.jpg')">
                   <span class="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-to-tl from-gray-900 to-slate-800 opacity-80"></span>
@@ -257,11 +249,10 @@ $userModel = new UserModel($conn);
                     </div>
                     <p class="text-white"><?php echo $ticket['description']; ?></p>
                     <div class="flex justify-between mt-12">
-                      <a class="mt-auto mb-0 text-sm font-semibold leading-normal text-white group" href="ticketsDetails.php?ticket_id=<?php echo $ticket['ticket_id']; ?>">
+                      <a class="mt-auto mb-0 text-sm font-semibold leading-normal text-white group" href="ticketsDetails.php">
                         Read More
                         <i class="fas fa-arrow-right ease-bounce text-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
                       </a>
-
                       <p class="text-white">Assigned to:
                         <?php
                         $assignedUser = $userModel->getUsers();
@@ -316,35 +307,6 @@ $userModel = new UserModel($conn);
       // Faites quelque chose avec la valeur sélectionnée, par exemple, filtrez vos tickets en conséquence
       // Vous pouvez appeler une fonction de filtrage ou effectuer une requête AJAX pour récupérer les tickets filtrés.
       console.log('Selected Status:', selectedStatus);
-    });
-  });
-</script>
-
-<script>
-  // Function to filter tickets based on the selected filter
-  function filterTickets(filter) {
-    // You may need to modify this part based on your actual ticket structure
-    const ticketElements = document.querySelectorAll('.ticket');
-
-    ticketElements.forEach((ticketElement) => {
-      const ticketType = ticketElement.getAttribute('data-ticket-type');
-
-      // Show or hide tickets based on the selected filter
-      if (filter === 'all' || ticketType === filter) {
-        ticketElement.style.display = 'block';
-      } else {
-        ticketElement.style.display = 'none';
-      }
-    });
-  }
-
-  // Event listener for filter buttons
-  document.querySelectorAll('#dropdown button').forEach((button) => {
-    button.addEventListener('click', () => {
-      const selectedFilter = button.textContent.trim().toLowerCase().replace(' ', '_');
-
-      // Update the displayed tickets based on the selected filter
-      filterTickets(selectedFilter);
     });
   });
 </script>

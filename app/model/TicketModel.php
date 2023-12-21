@@ -1,10 +1,14 @@
 <?php
+// include('../controller/TicketController.php');
+    //  include_once('../../config/Database.php');
 
 class TicketModel
 {
     private $conn;
     public function __construct()
     {
+     include_once('../../config/Database.php');
+   
         // Utilisation des constantes définies dans le fichier config.php
         $this->conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
@@ -17,6 +21,7 @@ class TicketModel
     // Méthode pour créer un nouveau ticket dans la base de données
     public function createTicket($title, $description, $priority, $statut, $created_by)
     {
+        include_once('../../../config/Database.php');
 
         // Requête SQL pour insérer un nouveau ticket
         $sql = "INSERT INTO tickets (title, description, priority, statut, date_creation, created_by) 
@@ -67,17 +72,12 @@ class TicketModel
         $result = $this->conn->query($query);
 
         if ($result) {
-            $tickets = [];
-            while ($row = $result->fetch_assoc()) {
-                $tickets[] = $row;
-            }
-            return $tickets;
+            return $result->fetch_all(MYSQLI_ASSOC);
         } else {
             // Gestion des erreurs, vous pouvez personnaliser cette partie en fonction de vos besoins
             return false;
         }
     }
-
 
     // Méthode pour récupérer les détails d'un ticket spécifique
     public function getTicketDetails($ticketId)
@@ -171,32 +171,6 @@ class TicketModel
         // Vérifiez si toutes les requêtes ont réussi (vous pouvez ajuster cela en fonction de vos besoins)
         return true;
     }
-
-
-    public function getFilteredTickets($filterType, $loggedInUserId)
-    {
-        $query = "SELECT * FROM tickets";
-
-        // Ajoutez la logique de filtrage ici en fonction du type de filtre
-        // Vous pouvez utiliser une clause WHERE dans votre requête SQL.
-
-        if ($filterType == 'created_by_me') {
-            $query .= " WHERE creator_id = " . $loggedInUserId;
-        } elseif ($filterType == 'assigned_to_me') {
-            $query .= " WHERE assigned_to = " . $loggedInUserId;
-        }
-
-        $result = $this->conn->query($query);
-
-        $tickets = [];
-        while ($row = $result->fetch_assoc()) {
-            $tickets[] = $row;
-        }
-
-        return $tickets;
-    }
-
-
 
     // Méthode pour fermer la connexion à la base de données
     public function closeConnection()
